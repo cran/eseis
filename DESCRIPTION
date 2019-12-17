@@ -1,8 +1,8 @@
 Package: eseis
 Type: Package
 Title: Environmental Seismology Toolbox
-Version: 0.4.0
-Date: 2018-06-12
+Version: 0.5.0
+Date: 2019-12-16
 Authors@R: c(
     person("Michael", "Dietze", role = c("cre", "aut", "trl"), email = "mdietze@gfz-potsdam.de"),
     person("Christoph", "Burow", role = c("ctb")),
@@ -14,18 +14,20 @@ Description: Environmental seismology is a scientific field that studies the
     analyse and visualise seismic data, and generate reports of the processing 
     history.
 License: GPL-3
-Depends: R (>= 3.4.0)
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.6.0)
 LinkingTo: Rcpp (>= 0.12.5)
 Imports: sp, multitaper, raster, rgdal, caTools, signal, fftw,
-        matrixStats, methods, IRISSeismic, XML, rmarkdown, Rcpp (>=
-        0.12.5)
+        matrixStats, methods, IRISSeismic, XML, shiny, rmarkdown,
+        reticulate, Rcpp (>= 0.12.5)
 Suggests: plot3D, rgl
 SystemRequirements: gipptools dataselect
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 NeedsCompilation: yes
-Packaged: 2018-06-12 12:21:55 UTC; mdietze
+Packaged: 2019-12-17 10:28:42 UTC; mdietze
 Author: Michael Dietze [cre, aut, trl],
   Christoph Burow [ctb],
   Sophie Lagarde [ctb, trl]
 Repository: CRAN
-Date/Publication: 2018-06-14 21:52:20 UTC
+Date/Publication: 2019-12-17 11:30:02 UTC

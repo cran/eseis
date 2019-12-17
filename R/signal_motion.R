@@ -35,7 +35,7 @@
 #' @param order \code{Character} value, order of the seismic components. 
 #' Describtion must contain the letters \code{"x"},\code{"y"} and
 #' \code{"z"} in the order according to the input data set. Default is 
-#' \code{"xyz"} (NS-EW-vertical).
+#' \code{"xyz"} (EW-NS-vertical).
 #' 
 #' @return A List object with eigenvalue ratios (\code{eigen}), 
 #' azimuth (\code{azimuth}) and inclination (\code{inclination}) as well
@@ -86,7 +86,7 @@ signal_motion <- function(
 ) {
   
   ## check/set dt
-  if(missing(dt) == TRUE && class(data[[1]]) != "eseis") {
+  if(missing(dt) == TRUE && class(data[[1]])[1] != "eseis") {
     
     ## check/set time vector
     if(missing(time) == TRUE) {
@@ -112,7 +112,7 @@ signal_motion <- function(
   ## check/set window size
   if(missing(window) == TRUE) {
     
-    if(class(data[[1]]) == "eseis") {
+    if(class(data[[1]])[1] == "eseis") {
       
       n <- data[[1]]$meta$n
     } else {
@@ -149,7 +149,7 @@ signal_motion <- function(
                           order = order)
 
   ## homogenise data structure
-  if(class(data[[1]]) == "eseis") {
+  if(class(data[[1]])[1] == "eseis") {
     
     ## set eseis flag
     eseis_class <- TRUE
@@ -178,7 +178,7 @@ signal_motion <- function(
   }
   
   ## homogenise data structure
-  if(class(data) == "list") {
+  if(class(data)[1] == "list") {
     
     data <- do.call(cbind, data)
   }
@@ -262,7 +262,7 @@ signal_motion <- function(
       as.character(length(eseis_data$history))
     
     ## set S3 class name
-    class(eseis_data) <- "eseis"
+    class(eseis_data)[1] <- "eseis"
     
     ## assign eseis object to output data set
     data_out <- eseis_data

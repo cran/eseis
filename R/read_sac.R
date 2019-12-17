@@ -35,12 +35,21 @@
 #' object (recommended, see documentation of 
 #' \code{aux_initiateeseis}), default is \code{TRUE}
 #' 
+#' @param get_instrumentdata \code{Logical} value, option to fill meta 
+#' information (sensor name, logger name, logger gain) from SAC user fields 
+#' (field 127-129, KUSER0-KUSER2). Default is \code{FALSE}.
+#' 
 #' @param endianness \code{Logical} value, endianness of the sac file. One
 #' out of \code{"little"}, \code{"big"} and \code{"swap"}. Default 
 #' is \code{"little"}.
 #' 
 #' @param biglong \code{Logical} value, number coding format. Default 
 #' is \code{FALSE}.
+#' 
+#' @param type \code{Character} value, type keyword of the data. One out of 
+#' \code{"waveform"}, \code{"envelope"}, \code{"fft"}, \code{"spectrum"}, 
+#' \code{"spectrogram"}, \code{"other"}, \code{hilbert}, \code{hvratio}. 
+#' Default is \code{"waveform"}.
 #' 
 #' @return \code{List} object, optionally of class \code{eseis}.
 #' 
@@ -73,8 +82,10 @@ read_sac <- function(
   meta = TRUE,
   header = TRUE,
   eseis = TRUE,
+  get_instrumentdata = FALSE,
   endianness = "little",
-  biglong = FALSE
+  biglong = FALSE,
+  type = "waveform"
 ) {
   
   ## collect function arguments
@@ -86,7 +97,8 @@ read_sac <- function(
                           header = header,
                           eseis = eseis,
                           endianness = endianness,
-                          biglong = biglong)
+                          biglong = biglong,
+                          type = type)
   
   ## check/select files
   if(sum(grepl(pattern = "[*]", x = file)) > 0) {
@@ -196,14 +208,14 @@ read_sac <- function(
     
     dt <- signif(x = as.numeric(header[1]), digits = 6)
     
-    location_station <- as.numeric(header[32:34])
+    location_station <- as.numeric(header[32:35])
     location_station <- ifelse(test = location_station == -12345, 
                                yes = NA, 
                                no = location_station)
     
-    time_JD <- time_convert(input = as.numeric(header[72]),
-                            output = "yyyy-mm-dd", 
-                            year = as.numeric(header[71]))
+    time_JD <- eseis::time_convert(input = as.numeric(header[72]),
+                                   output = "yyyy-mm-dd", 
+                                   year = as.numeric(header[71]))
     time_hour <- ifelse(test = nchar(header[73]) == 1, 
                         yes = paste("0", header[73], sep = ""),
                         no = header[73])
@@ -224,23 +236,27 @@ read_sac <- function(
     
     name_station <- ifelse(test = header[111] == "-12345  ",
                            yes = NA,
-                           no = header[111])
+                           no = trimws(header[111]))
     
     name_network <- ifelse(test = header[131] == "-12345  ",
                            yes = NA,
-                           no = header[131])
+                           no = trimws(header[131]))
     
-    name_sensor <- ifelse(test = header[132] == "-12345  ",
-                          yes = NA,
-                          no = header[132])
+    name_sensor <- ifelse(test = get_instrumentdata == TRUE,
+                          yes = trimws(header[127]),
+                          no = NA)
     
-    name_logger <- ifelse(test = header[133] == "-12345  ",
-                          yes = NA,
-                          no = header[133])
+    name_logger <- ifelse(test = get_instrumentdata == TRUE,
+                          yes = trimws(header[128]),
+                          no = NA)
+    
+    gain_logger <- ifelse(test = get_instrumentdata == TRUE,
+                          yes = as.numeric(trimws(header[129])),
+                          no = NA)
     
     channel <- ifelse(test = header[130] == "-12345  ",
                       yes = NA,
-                      no = header[130])
+                      no = trimws(header[130]))
     
     n_data <- as.numeric(header[80])
     
@@ -250,13 +266,15 @@ read_sac <- function(
                  n = n_data,
                  sensor = name_sensor,
                  logger = name_logger,
+                 gain = gain_logger,
                  starttime = time_start,
                  dt = dt,
                  latitude = location_station[1],
                  longitude = location_station[2],
                  elevation = location_station[3],
                  depth = location_station[4],
-                 filename = file)
+                 filename = file,
+                 type = eseis_arguments$type)
     
     if(signal == TRUE) {
       

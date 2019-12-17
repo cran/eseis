@@ -13,6 +13,11 @@
 #' @param data \code{eseis} object, \code{numeric} vector or list of 
 #' objects, data set to be processed.
 #' 
+#' @param use_metadata \code{Logical} value, option to take keywords for 
+#' \code{sensor}, \code{logger} and \code{gain} from eseis object meta data
+#' element instead of using explicitly provided arguments. Default is 
+#' \code{FALSE}.
+#' 
 #' @param dt \code{Numeric} value, sampling rate. Only needed if \code{data} 
 #' is not an \code{eseis} object
 #' 
@@ -84,10 +89,11 @@
 #' 
 signal_deconvolve <- function(
   data,
-  dt,
   sensor = "TC120s",
-  logger = "Cube3extBOB",
+  logger = "Cube3BOB",
   gain = 1,
+  use_metadata = FALSE,
+  dt,
   p = 10^-6,
   waterlevel = 10^-6,
   na.replace = FALSE
@@ -99,15 +105,16 @@ signal_deconvolve <- function(
   }
   
   ## check data structure
-  if(class(data) == "list") {
+  if(class(data)[1] == "list") {
     
     ## apply function to list
     data_out <- lapply(X = data, 
                        FUN = eseis::signal_deconvolve, 
-                       dt = dt,
                        sensor = sensor,
                        logger = logger,
                        gain = gain,
+                       use_metadata = use_metadata,
+                       dt = dt,
                        p = p,
                        waterlevel = waterlevel)
     
@@ -122,21 +129,27 @@ signal_deconvolve <- function(
     ## collect function arguments
     eseis_arguments <- list(data = "",
                             dt = dt,
-                            sensor = sensor,
-                            logger = logger,
-                            gain = gain,
+                            sensor = ifelse(test = use_metadata == TRUE,
+                                            yes = data$meta$sensor,
+                                            no = sensor),
+                            logger = ifelse(test = use_metadata == TRUE,
+                                            yes = data$meta$logger,
+                                            no = logger),
+                            gain = ifelse(test = use_metadata == TRUE,
+                                          yes = data$meta$gain,
+                                          no = gain),
                             p = p,
                             waterlevel = waterlevel)
     
     ## get sensor information
-    if(class(sensor) == "character") {
+    if(class(sensor)[1] == "character") {
       
       sensor <- try(list_sensor()[[sensor]], silent = TRUE)
       
-      if(class(sensor) == "try-error") {
+      if(class(sensor)[1] == "try-error") {
         stop("Sensor keyword not in library! Consider adding manually.")
       }
-    } else if(class(sensor) == "list") {
+    } else if(class(sensor)[1] == "list") {
       
       if(length(match(x = names(sensor), 
                       table = names(list_sensor()[[1]]))) != 10) {
@@ -154,15 +167,15 @@ signal_deconvolve <- function(
     k <- sensor$k
     
     ## get logger information
-    if(class(logger) == "character") {
+    if(class(logger)[1] == "character") {
       
       logger <- try(list_logger()[[logger]], silent = TRUE)
       
-      if(class(logger) == "try-error") {
+      if(class(logger)[1] == "try-error") {
         
         stop("Logger keyword not in library! Consider adding manually.")
       }      
-    } else if(class(logger) == "list") {
+    } else if(class(logger)[1] == "list") {
       
       if(length(match(x = names(logger), 
                       table = names(list_logger()[[1]]))) != 7) {
@@ -177,7 +190,7 @@ signal_deconvolve <- function(
     AD <- logger$AD
     
     ## extract eseis object signal vector
-    if(class(data) == "eseis") {
+    if(class(data)[1] == "eseis") {
       
       ## set eseis flag
       eseis_class <- TRUE

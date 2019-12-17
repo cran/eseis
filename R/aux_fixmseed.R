@@ -35,7 +35,6 @@
 #' aux_fixmseed(file = list.files(path = "~/data/mseed", 
 #'                                pattern = "miniseed"), 
 #'                     input_dir = "~/data/mseed",
-#'                     output_dir = "~/data/mseed/out",
 #'                     software = "~/software/dataselect-3.17")
 #' 
 #' }
@@ -83,7 +82,7 @@ aux_fixmseed <- function(
                                     input_dir, "/", file, sep = "")), 
              silent = TRUE)
     
-    if(class(x) == "try-error") {
+    if(class(x)[1] == "try-error") {
       
       warning(paste("File", file, "not fixed!"))
     }

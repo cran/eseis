@@ -212,7 +212,7 @@ model_turbulence <- function(
   psi <- 2 * log(1 + (1 / beta)) * exp(-2 * beta) + (1 - exp(-beta)) * 
     exp(-beta) * sqrt(2 * pi / beta)
 
-  ## clacluate auxiliary variables
+  ## calcluate auxiliary variables
   c_p_0 <- 4 * (1 - (1 / 4 * k_s / h_w))
   
   c_k_s <- 8 * (1 - (k_s / (2 * h_w)))
@@ -292,8 +292,12 @@ model_turbulence <- function(
     names(eseis_data$history)[length(eseis_data$history)] <- 
       as.character(length(eseis_data$history))
     
+    ## update data type
+    eseis_data$meta$type = "spectrum"
+    
     ## assign eseis object to output data set
     data_out <- eseis_data
+    
   } else {
     
     data_out <- P

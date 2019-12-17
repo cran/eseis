@@ -49,18 +49,21 @@ aux_initiateeseis <- function(
                             n = NA,
                             sensor = NA,
                             logger = NA,
+                            gain = NA,
                             starttime = as.POSIXct(x = NA, 
                                                    tz = "UTC"),
                             dt = NA,
                             latitude = NA,
                             longitude = NA,
                             elevation = NA,
-                            filename = NA),
+                            depth = NA,
+                            filename = NA,
+                            type = NA),
                 header = list(),
                 history = list("1" = list(system = sessionInfo())))
   
   ## provide eseis class name
-  class(eseis) <- "eseis"
+  class(eseis)[1] <- "eseis"
   
   ## return eseis object
   return(eseis)

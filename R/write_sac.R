@@ -54,8 +54,7 @@
 #' data("rockfall")
 #' 
 #' ## write as sac file
-#' write_sac(data = rockfall_eseis, 
-#'           file = "rockfall.sac")
+#' write_sac(data = rockfall_eseis)
 #'           
 #' }
 #'
@@ -85,7 +84,7 @@ write_sac <- function(
     ifloat <- 4
   }
   
-  if(class(data) != "eseis") {
+  if(class(data)[1] != "eseis") {
     
     ## check/set station
     if(missing(station) == TRUE) {
@@ -152,7 +151,17 @@ write_sac <- function(
     
     ## get first time entry
     start <- time[1]
-  } else {
+    
+    ## add sensor keyword
+    sensor <- -12345
+
+    ## add logger keyword
+    logger <- -12345
+    
+    ## add gain keyword
+    gain <- -12345
+    
+} else {
     
     ## extract meta information from eseis object
     
@@ -166,11 +175,11 @@ write_sac <- function(
     component <- data$meta$component
     
     ## try to convert component to keyword
-    component <- c("p1", "p2", "p0")[match(x = component, 
-                                               table = c("BHE", 
-                                                         "BHN", 
-                                                         "BHZ"), 
-                                               nomatch = NA)]
+    # component <- c("p1", "p2", "p0")[match(x = component, 
+    #                                            table = c("BHE", 
+    #                                                      "BHN", 
+    #                                                      "BHZ"), 
+    #                                            nomatch = NA)]
     
     ## account for missing information
     if(is.na(component) == TRUE) {
@@ -194,13 +203,44 @@ write_sac <- function(
     if(unit == "acceleration") {unit <- 5}
     
     ## location information
-    location <- c(data$meta$latitude,
-                  data$meta$longitude,
-                  data$meta$elevation,
-                  data$meta$depth)
+    location <- try(c(data$meta$latitude,
+                      data$meta$longitude,
+                      data$meta$elevation,
+                      data$meta$depth), silent = TRUE)
+    
+    ## account for missing location slot
+    if(class(location)[1] == "try-error" | 
+       is.null(location) | 
+       length(location) != 4) {
+      
+      location <- rep(x = -12345, times = 4)
+    }
     
     ## sampling period 
     dt <- data$meta$dt
+    
+    ## extract instrument data
+    sensor <- try(data$meta$sensor, silent = TRUE)
+    logger <- try(data$meta$logger, silent = TRUE)
+    gain <- try(data$meta$gain, silent = TRUE)
+    
+    ## account for missing sensor data
+    if(class(sensor)[1] == "try-error" | is.null(sensor)) {
+      
+      sensor <- -12345
+    }
+    
+    ## account for missing logger data
+    if(class(logger)[1] == "try-error" | is.null(logger)) {
+      
+      logger <- -12345
+    }
+    
+    ## account for missing gain data
+    if(class(gain)[1] == "try-error" | is.null(gain)) {
+      
+      gain <- -12345
+    }
     
     ## start time
     start <- data$meta$starttime
@@ -257,7 +297,7 @@ write_sac <- function(
     
     ## get default sac parameter definition
     sac_parameters <- list_sacparameters()
-    class(sac_parameters$value) <- "character"
+    class(sac_parameters$value)[1] <- "character"
     
     ## update sac parameters
     sac_parameters$value[1] <- as.character(dt)
@@ -343,6 +383,12 @@ write_sac <- function(
     sac_parameters$value[113] <- "XX"
     
     sac_parameters$value[114:129] <- rep(x = "-12345", times = 16)
+    
+    sac_parameters$value[127] <- sensor
+    
+    sac_parameters$value[128] <- logger
+    
+    sac_parameters$value[129] <- gain
     
     sac_parameters$value[130] <- component
     

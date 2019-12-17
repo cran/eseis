@@ -111,7 +111,6 @@
 #' ## basic example with minimum effort
 #' aux_organisecubefiles(stationfile = "output/stationinfo.txt", 
 #'                       input_dir = "input", 
-#'                       output_dir = "output", 
 #'                       gipptools = "software/gipptools-2015.225/")
 #' 
 #' }
@@ -147,7 +146,7 @@ aux_organisecubefiles <- function(
                                    header = TRUE, 
                                    stringsAsFactors = FALSE))
     
-    if(class(station_test) == "try-error") {
+    if(class(station_test)[1] == "try-error") {
       
       stop("Station info file cannot be read!")
     } else {
@@ -201,21 +200,21 @@ aux_organisecubefiles <- function(
   } else if(dir.exists(gipptools) == FALSE) {
     
     stop("Path to gipptools is wrong!")
-  } else {
-    
-    if(file.exists(paste(gipptools, 
-                         "/bin/cube2mseed", 
-                         sep = "")) == FALSE) {
-      
-      stop("gipptools do not contain cbue2mseed function!")
-    }
-    
-    if(file.exists(paste(gipptools, 
-                         "/bin/mseedcut", 
-                         sep = "")) == FALSE) {
-      
-      stop("gipptools do not contain mseedcut function!")
-    }
+  # } else {
+  #   
+  #   if(file.exists(paste(gipptools, 
+  #                        "/bin/cube2mseed", 
+  #                        sep = "")) == FALSE) {
+  #     
+  #     stop("gipptools do not contain cbue2mseed function!")
+  #   }
+  #   
+  #   if(file.exists(paste(gipptools, 
+  #                        "/bin/mseedcut", 
+  #                        sep = "")) == FALSE) {
+  #     
+  #     stop("gipptools do not contain mseedcut function!")
+  #   }
   }
   
   ## read station info data

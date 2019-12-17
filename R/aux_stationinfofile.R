@@ -113,7 +113,6 @@
 #' ## example with more adjustments
 #' aux_stationinfofile(name = "stationinfo",
 #'                     input_dir = "input",
-#'                     output_dir = "output", 
 #'                     logger_ID = c("864", "876", "AB1"),
 #'                     station_name = c("KTZ01", "KTZ02", "KTZ03"), 
 #'                     station_z = c(30, 28, 29), 
@@ -414,7 +413,7 @@ aux_stationinfofile <- function(
                     silent = TRUE)
       
       ## append successfully extracted data
-      if(class(data_i) != "try-error") {
+      if(class(data_i)[1] != "try-error") {
         
         ## extract latitude
         lat <- c(lat, as.numeric(substr(x = data_i$V8, 

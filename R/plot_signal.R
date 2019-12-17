@@ -37,6 +37,20 @@
 #' ## plot data set with lower resolution
 #' plot_signal(data = rockfall_eseis, n = 100)
 #' 
+#' ## plot data set but not as an eseis object
+#' plot_signal(data = rockfall_z, time = rockfall_t)
+#' 
+#' ## load earthquake data set
+#' data(earthquake)
+#' 
+#' ## plot all three components (after changing plot options)
+#' pars <- par(no.readonly = TRUE)
+#' par(mfcol = c(3, 1))
+#' 
+#' plt <- lapply(s, plot_signal, t = t)
+#' 
+#' par(pars)
+#' 
 #' @export plot_signal
 #' 
 plot_signal <- function(
@@ -48,7 +62,7 @@ plot_signal <- function(
 ) {
   
   ## check if input object is of class eseis
-  if(class(data) == "eseis") {
+  if(class(data)[1] == "eseis") {
     
     ## set eseis flag
     eseis_class <- TRUE

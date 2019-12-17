@@ -1,7 +1,9 @@
 #' Aggregate a signal vector
 #' 
 #' The signal vector \code{data} is aggregated by an integer factor \code{n}.
-#' If an \code{eseis} object is provided, the meta data is updated.
+#' If an \code{eseis} object is provided, the meta data is updated. The 
+#' function is a wrapper for the funcion \code{decimate} of the package
+#' \code{signal}. 
 #' 
 #' @param data \code{eseis} object, \code{numeric} vector or list of 
 #' objects, data set to be processed.
@@ -9,6 +11,10 @@
 #' @param n \code{Numeric} value, number of samples to be aggregated to one
 #' new data value. Must be an integer value greater than 1. Default is 
 #' \code{2}.
+#' 
+#' @param type \code{Character} value, filter type used for aggregation. For 
+#' details see documentation of \code{signal::decimate}. Default is 
+#' \code{"iir"}.
 #' 
 #' @return Aggregated data set.
 #' @author Michael Dietze
@@ -62,11 +68,12 @@
 #' @export signal_aggregate
 signal_aggregate <- function(
   data,
-  n = 2
+  n = 2,
+  type = "iir"
 ) {
   
   ## check data structure
-  if(class(data) == "list") {
+  if(class(data)[1] == "list") {
     
     ## apply function to list
     data_out <- lapply(X = data, 
@@ -82,7 +89,8 @@ signal_aggregate <- function(
     
     ## collect function arguments
     eseis_arguments <- list(data = "",
-                            n = n)
+                            n = n,
+                            type = type)
     
     ## check aggregation factor
     if(signif(n) != n) {
@@ -99,7 +107,7 @@ signal_aggregate <- function(
     }
     
     ## check if input object is of class eseis
-    if(class(data) == "eseis") {
+    if(class(data)[1] == "eseis") {
       
       ## set eseis flag
       eseis_class <- TRUE
@@ -115,51 +123,10 @@ signal_aggregate <- function(
       eseis_class <- FALSE
     }
     
-    ## check/set data structure
-    if(is.matrix(data) == FALSE) {
-      data <- rbind(data)
-    }
-    
-    ## aggregate data
-    if(n %% 2 == 0) {
-      
-      ## resample input data set
-      data_agg <- data[,seq(from = 1, 
-                            to = ncol(data), 
-                            by = n)]
-      
-      ## check/restore data structure
-      if(is.matrix(data_agg) == FALSE) {
-        data_agg <- t(as.matrix(data_agg))
-      }
-      
-      ## calculate mean input data difference
-      d_data_1 <- mean(x = apply(X = data, 
-                                 MARGIN = 1, 
-                                 FUN = diff), 
-                       na.rm = TRUE)
-      
-      ## calculate mean aggregated data difference
-      d_data_2 <- mean(x = apply(X = data_agg, 
-                                 MARGIN = 1, 
-                                 FUN = diff), 
-                       na.rm = TRUE)
-      
-      ## shift aggregated values to center of original values
-      data_agg <- data_agg - d_data_1 / 2 + d_data_2 / 2
-      
-    } else {
-      
-      data_agg <- data[,seq(from = ceiling(n / 2), 
-                            to = ncol(data), 
-                            by = n)]
-    }
-    
-    ## make output consistent
-    if(nrow(data) == 1) {
-      
-      data_agg <- as.numeric(data_agg)
-    }
+    ## use decimate function from signal package
+    data_agg <- signal::decimate(x = data, 
+                                 q = n, 
+                                 ftype = type)
     
     ## optionally rebuild eseis object
     if(eseis_class == TRUE) {

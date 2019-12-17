@@ -33,6 +33,11 @@
 #' object (recommended, see documentation of 
 #' \code{aux_initiateeseis}), default is \code{TRUE}
 #' 
+#' @param type \code{Character} value, type keyword of the data. One out of 
+#' \code{"waveform"}, \code{"envelope"}, \code{"fft"}, \code{"spectrum"}, 
+#' \code{"spectrogram"}, \code{"other"}, \code{hilbert}, \code{hvratio}. 
+#' Default is \code{"waveform"}.
+#' 
 #' @return \code{List} object, optionally of class \code{eseis}
 #' 
 #' @author Michael Dietze
@@ -62,7 +67,8 @@ read_mseed <- function(
   time = TRUE,
   meta = TRUE,
   header = TRUE,
-  eseis = TRUE
+  eseis = TRUE,
+  type = "waveform"
 ) {
   
   ## collect function arguments
@@ -72,7 +78,8 @@ read_mseed <- function(
                           time = time,
                           meta = meta,
                           header = header,
-                          eseis = eseis)
+                          eseis = eseis,
+                          type = type)
   
   ## get start time
   t_0 <- Sys.time()
@@ -176,7 +183,7 @@ read_mseed <- function(
   ## optionally assign header part
   if(header == TRUE) {
     
-    header_list <- data 
+    header_list <- data
     
     for(i in 1:length(header_list)) {
       
@@ -205,11 +212,12 @@ read_mseed <- function(
                         logger = NA,
                         starttime = data[[i]]@traces[[1]]@stats@starttime,
                         dt = data[[i]]@traces[[1]]@stats@delta,
-                        latitude = NA,
-                        longitude = NA,
-                        elevation = NA,
-                        depth = NA,
-                        filename = data[[i]]@url)
+                        latitude = data[[i]]@traces[[1]]@stats@latitude,
+                        longitude = data[[i]]@traces[[1]]@stats@longitude,
+                        elevation = data[[i]]@traces[[1]]@stats@elevation,
+                        depth = data[[i]]@traces[[1]]@stats@depth,
+                        filename = data[[i]]@url,
+                        type = eseis_arguments$type)
     }
   }
   

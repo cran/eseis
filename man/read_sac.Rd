@@ -4,8 +4,19 @@
 \alias{read_sac}
 \title{Read sac files.}
 \usage{
-read_sac(file, append = TRUE, signal = TRUE, time = TRUE, meta = TRUE,
-  header = TRUE, eseis = TRUE, endianness = "little", biglong = FALSE)
+read_sac(
+  file,
+  append = TRUE,
+  signal = TRUE,
+  time = TRUE,
+  meta = TRUE,
+  header = TRUE,
+  eseis = TRUE,
+  get_instrumentdata = FALSE,
+  endianness = "little",
+  biglong = FALSE,
+  type = "waveform"
+)
 }
 \arguments{
 \item{file}{\code{Character} vector, input file name(s), with extension.}
@@ -30,12 +41,21 @@ default is \code{TRUE}.}
 object (recommended, see documentation of 
 \code{aux_initiateeseis}), default is \code{TRUE}}
 
+\item{get_instrumentdata}{\code{Logical} value, option to fill meta 
+information (sensor name, logger name, logger gain) from SAC user fields 
+(field 127-129, KUSER0-KUSER2). Default is \code{FALSE}.}
+
 \item{endianness}{\code{Logical} value, endianness of the sac file. One
 out of \code{"little"}, \code{"big"} and \code{"swap"}. Default 
 is \code{"little"}.}
 
 \item{biglong}{\code{Logical} value, number coding format. Default 
 is \code{FALSE}.}
+
+\item{type}{\code{Character} value, type keyword of the data. One out of 
+\code{"waveform"}, \code{"envelope"}, \code{"fft"}, \code{"spectrum"}, 
+\code{"spectrogram"}, \code{"other"}, \code{hilbert}, \code{hvratio}. 
+Default is \code{"waveform"}.}
 }
 \value{
 \code{List} object, optionally of class \code{eseis}.

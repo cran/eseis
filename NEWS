@@ -1,6 +1,23 @@
 Changes for R-package eseis
 
-Version 0.4.0 (2018-04-25)
+Version 0.5.0 (2019-12-16)
+  - function signal_filter(): frequency domain filtering implemented
+  - signal type meta element added
+  - function write_mseed() added
+  - function aux_obspyeseis() added
+  - functionaux_eseisobspy() added
+  - function signal_clip() added
+  - function signal_cut() added
+  - function aux_commondt() added
+  - function model_bedload() added
+  - function spatial_amplitude() added
+  - function spatial_crop() added
+  - function spatial_pmax() added
+  - function fmi_parameters() added
+  - function fmi_spectra() added
+  - function fmi_inversion() added
+
+Version 0.4.0 (2018-05-25)
   - eseis object implemented and all functions modified to support this object
   - function aux_initiateeseis() added
   - function aux_psdsummary() added
