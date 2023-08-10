@@ -1,8 +1,8 @@
 Package: eseis
 Type: Package
 Title: Environmental Seismology Toolbox
-Version: 0.7.2
-Date: 2023-04-16
+Version: 0.7.3
+Date: 2023-07-31
 Authors@R: c(
     person("Michael", "Dietze", role = c("cre", "aut", "trl"), email = "michael.dietze@uni-goettingen.de"),
     person("Christoph", "Burow", role = c("ctb")),
@@ -18,16 +18,16 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.0.2)
 LinkingTo: Rcpp (>= 0.12.5)
-Imports: multitaper, terra, caTools, signal, fftw, matrixStats,
-        methods, IRISSeismic, XML, shiny, rmarkdown, colorspace,
-        reticulate, extraDistr, minpack.lm, Rcpp (>= 1.0.7)
+Imports: terra, caTools, signal, fftw, matrixStats, methods,
+        IRISSeismic, XML, shiny, rmarkdown, colorspace, reticulate,
+        extraDistr, minpack.lm, Rcpp (>= 1.0.7)
 Suggests: plot3D, rgl, seewave
 SystemRequirements: gipptools dataselect
 RoxygenNote: 7.2.3
 NeedsCompilation: yes
-Packaged: 2023-04-16 19:46:48 UTC; micha
+Packaged: 2023-07-31 17:24:02 UTC; micha
 Author: Michael Dietze [cre, aut, trl],
   Christoph Burow [ctb],
   Sophie Lagarde [ctb, trl]
 Repository: CRAN
-Date/Publication: 2023-04-16 20:50:06 UTC
+Date/Publication: 2023-08-10 14:00:03 UTC

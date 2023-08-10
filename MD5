@@ -1,4 +1,4 @@
-0f577fe8ee4330474b00653d541bae2c *DESCRIPTION
+4a036393e04714e88370b4e8ac2166f1 *DESCRIPTION
 528663e2a4752e19e88679b59a4f279a *NAMESPACE
 6167bd2762993d819aa2ab2bb0d24467 *NEWS
 0c756f51dc932a03539d5fc90831d9bd *R/RcppExports.R
@@ -61,8 +61,8 @@ c80829e403504417f02583d8fc2f6b5e *R/signal_pad.R
 7ab5eb635a9c1f01f7aba76cfcfeaa20 *R/signal_rotate.R
 739839cef652b3cc2e4db33fa81b784c *R/signal_sign.R
 fac31ba80524110f7838542cf2066b22 *R/signal_snr.R
-f3968aea44a4bbae63187b97115ae3e4 *R/signal_spectrogram.R
-85ee7393188bc6552a2b9ec147a9599e *R/signal_spectrum.R
+25dab39fbfc8d168b7b5594fec101498 *R/signal_spectrogram.R
+3452482f588ae6a1cc7ebbdfe7e835fd *R/signal_spectrum.R
 8c361d2a50a33a1c39b8771fe1a6946e *R/signal_stats.R
 b010cce502e866bf985a06e27dd1d9cd *R/signal_sum.R
 209765904977d67e763432d0e2409585 *R/signal_taper.R
@@ -81,7 +81,7 @@ cc5a5877597e62757931e1da2d6c7d6f *R/spatial_clip.R
 cdf4f222407282ea5fb64dc3f194f506 *R/write_mseed.R
 319f2a4fd117b3d48a604163749222b4 *R/write_report.R
 eb513b529ee42fa34b12672dace0c740 *R/write_sac.R
-a9dcfdabc634891fcf88893a6d8f403e *R/zzz.R
+d11201ed5887e0a1027afe753dfb117d *R/zzz.R
 36d71834c7aa069b20a6cc027071fabb *data/earthquake.rda
 5870596393ba3ff6734c9ed84d93e150 *data/rockfall.rda
 b548019e86bba660775571888c343c13 *inst/extdata/2017/099/RUEG1.17.099.00.00.00.BHZ.SAC
@@ -154,8 +154,8 @@ e6faf4e0b08693962538fc82897e1b97 *man/signal_pad.Rd
 e76d197195bb3bdf0bdbf983a8161eb1 *man/signal_rotate.Rd
 4b4e59183a83230de4c33535ec5e53ba *man/signal_sign.Rd
 05c8148e111deb173cab1e2a74f1dc21 *man/signal_snr.Rd
-febfd6fa110b6951b2e4e66cbc61a191 *man/signal_spectrogram.Rd
-c03e8df39b5f420c8f98ec2121ddcadd *man/signal_spectrum.Rd
+67925f274612151e8efb2fb2be1b2ac2 *man/signal_spectrogram.Rd
+f2448f8c5b9c58563413370016afe47a *man/signal_spectrum.Rd
 e083e6c7b149fe1009951ef5c830388d *man/signal_stats.Rd
 c48652e232a69c1ab7fecdfae7c9a8c7 *man/signal_sum.Rd
 58c43396a3c8b75656b8dbc89d64527c *man/signal_taper.Rd
