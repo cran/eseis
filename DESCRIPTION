@@ -1,12 +1,13 @@
 Package: eseis
 Type: Package
 Title: Environmental Seismology Toolbox
-Version: 0.7.3
-Date: 2023-07-31
+Version: 0.8.0
+Date: 2024-11-24
 Authors@R: c(
     person("Michael", "Dietze", role = c("cre", "aut", "trl"), email = "michael.dietze@uni-goettingen.de"),
     person("Christoph", "Burow", role = c("ctb")),
-    person("Sophie", "Lagarde", role = c("ctb", "trl")))
+    person("Sophie", "Lagarde", role = c("ctb", "trl")),
+    person("Clement", "Hibert", role = c("ctb", "aut")))
 Maintainer: Michael Dietze <michael.dietze@uni-goettingen.de>
 Description: Environmental seismology is a scientific field that studies the  
     seismic signals, emitted by Earth surface processes. This package 
@@ -16,18 +17,19 @@ Description: Environmental seismology is a scientific field that studies the
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.0.2)
-LinkingTo: Rcpp (>= 0.12.5)
-Imports: terra, caTools, signal, fftw, matrixStats, methods,
-        IRISSeismic, XML, shiny, rmarkdown, colorspace, reticulate,
-        extraDistr, minpack.lm, Rcpp (>= 1.0.7)
+Depends: R (>= 4.0.0)
+LinkingTo: Rcpp
+Imports: terra, caTools, signal, fftw, matrixStats, graphics, methods,
+        XML, shiny, rmarkdown, colorspace, reticulate, extraDistr,
+        minpack.lm, Rcpp
 Suggests: plot3D, rgl, seewave
 SystemRequirements: gipptools dataselect
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 NeedsCompilation: yes
-Packaged: 2023-07-31 17:24:02 UTC; micha
+Packaged: 2024-11-24 13:21:23 UTC; dietze2
 Author: Michael Dietze [cre, aut, trl],
   Christoph Burow [ctb],
-  Sophie Lagarde [ctb, trl]
+  Sophie Lagarde [ctb, trl],
+  Clement Hibert [ctb, aut]
 Repository: CRAN
-Date/Publication: 2023-08-10 14:00:03 UTC
+Date/Publication: 2024-11-24 13:40:02 UTC
